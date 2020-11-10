@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardHeader, CardContent, CardActions, Collapse, IconButton, Typography } from '@material-ui/core';
+import { Card, CardHeader, CardContent, CardActions, Collapse, IconButton, Typography, Grid } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { red } from '@material-ui/core/colors';
@@ -42,11 +42,11 @@ const ExpenseTracker = () => {
     <Card className={classes.root}>
       <CardHeader title="Expense Tracker" subheader="Powered by Speechly" />
       <CardContent>
-        <Typography variant="body1" component="h2">Current Balance - $0.00</Typography>
-        <div>
-          <Typography>Income $0.00</Typography>
-          <Typography>Expense $0.00</Typography>
-        </div>
+        <Typography variant="h5">Current Balance - $0.00</Typography>
+        <Grid container justify="space-around">
+          <Typography variant="h6">Income $0.00</Typography>
+          <Typography variant="h6">Expense $0.00</Typography>
+        </Grid>
         <NewTransactionForm />
       </CardContent>
       <CardActions disableSpacing>
