@@ -1,16 +1,13 @@
-import React from 'react';
-import { Card, CardHeader, CardContent, CardActions, Collapse, IconButton, Typography, Grid } from '@material-ui/core';
-import { ExpandMore } from '@material-ui/icons';
+import React, { useContext } from 'react';
+import { Card, CardHeader, CardContent, CardActions, Collapse, IconButton, Typography, Grid, List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, Divider } from '@material-ui/core';
+import { ExpandMore, Delete, MoneyOff } from '@material-ui/icons'; // attachmoney
 import { makeStyles } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors';
 import clsx from 'clsx';
-
+import { red, green } from '@material-ui/core/colors';
 import NewTransactionForm from './NewTransactionForm';
+import { ExpenseTrackerContext } from '../context/context';
 
 const useStyles = makeStyles((theme) => ({
-//   root: {
-//     maxWidth: 345,
-//   },
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
@@ -25,28 +22,32 @@ const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-  avatar: {
+  avatarIncome: {
+    color: '#fff',
+    backgroundColor: green[500],
+  },
+  avatarExpense: {
+    color: theme.palette.getContrastText(red[500]),
     backgroundColor: red[500],
+  },
+  cartContent: {
+    paddingTop: 0,
   },
 }));
 
 const ExpenseTracker = () => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const { state: { transactions, income, expense }, deleteTransaction } = useContext(ExpenseTrackerContext);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  const handleExpandClick = () => setExpanded(!expanded);
 
   return (
     <Card className={classes.root}>
       <CardHeader title="Expense Tracker" subheader="Powered by Speechly" />
       <CardContent>
-        <Typography variant="h5">Current Balance - $0.00</Typography>
-        <Grid container justify="space-around">
-          <Typography variant="h6">Income $0.00</Typography>
-          <Typography variant="h6">Expense $0.00</Typography>
-        </Grid>
+        <Typography align="center" variant="h5">Total Balance - ${income - expense}</Typography>
+        <Divider style={{margin: '30px 0'}} />
         <NewTransactionForm />
       </CardContent>
       <CardActions disableSpacing>
@@ -55,8 +56,29 @@ const ExpenseTracker = () => {
         </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>List:</Typography>
+        <CardContent className={classes.cartContent}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant="h6" className={classes.title}>Transaction History</Typography>
+              <List dense={false}>
+                {transactions.map((transaction, i) => (
+                  <ListItem key={i}>
+                    <ListItemAvatar>
+                      <Avatar className={transaction.type === 'Income' ? classes.avatarIncome : classes.avatarExpense}>
+                        <MoneyOff />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={transaction.title} secondary={transaction.amount} />
+                    <ListItemSecondaryAction>
+                      <IconButton edge="end" aria-label="delete" onClick={() => deleteTransaction(transaction.id)}>
+                        <Delete />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
+              </List>
+            </Grid>
+          </Grid>
         </CardContent>
       </Collapse>
     </Card>

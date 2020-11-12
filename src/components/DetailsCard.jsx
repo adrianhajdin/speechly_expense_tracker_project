@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Card, CardHeader, CardContent, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-// import { red } from '@material-ui/core/colors';
 import { Doughnut } from 'react-chartjs-2';
-// import NewTransactionForm from './NewTransactionForm';
+
+import { ExpenseTrackerContext } from '../context/context';
 
 const useStyles = makeStyles(() => ({
   income: {
@@ -14,41 +14,41 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const data = {
-  datasets: [{
-    data: [10, 20, 30],
-    backgroundColor: ['#ff6384', '#ffcd55', '#36a2eb'],
-  }],
-
-  // These labels appear in the legend and in the tooltips when hovering different arcs
-  labels: [
-    'Red',
-    'Yellow',
-    'Blue',
-  ],
-};
-
-// // For a pie chart
-// const myPieChart = new Chart(ctx, {
-//   type: 'pie',
-//   data,
-//   options: Chart.defaults.doughnut,
-// });
-// // And for a doughnut chart
-// const myDoughnutChart = new Chart(ctx, {
-//   type: 'doughnut',
-//   data,
-//   options: Chart.defaults.pie,
-// });
-
 const DetailsCard = ({ title, subheader }) => {
   const classes = useStyles();
-  // <Card className={classes.root}>
+  const { state: { income, expense, transactions} , incomeCategories, expenseCategories } = useContext(ExpenseTrackerContext);
+
+//   const selectedCategories = title === "Income" ? incomeCategories : expenseCategories;
+
+//       transactions.forEach((t) => {  
+//         const currentCategory = selectedCategories.find((c) => c.type === t.category);
+
+//         console.log(currentCategory);
+
+//         if(currentCategory) {
+//             currentCategory.amount += t.amount;
+//         }
+//       });
+
+//       console.log(transactions);
+//       console.log(selectedCategories)
+
+//   const filteredSelectedCategory = selectedCategories.filter((sc) => sc.amount > 0);
+const filteredSelectedCategory = incomeCategories.filter((sc) => sc.amount > 0);
+
+  const data = {
+    datasets: [{
+      data: filteredSelectedCategory.map((c) => c.amount),
+      backgroundColor: filteredSelectedCategory.map((c) => c.color),
+    }],
+    labels: filteredSelectedCategory.map((c) => c.type),
+  };
+
   return (
     <Card className={title === 'Income' ? classes.income : classes.expense}>
       <CardHeader title={title} subheader={subheader} />
       <CardContent>
-        <Typography variant="h5">$0.00</Typography>
+        <Typography variant="h5">${title === 'Income' ? income : expense}</Typography>
         {/* <NewTransactionForm /> */}
         <Doughnut data={data} />
       </CardContent>

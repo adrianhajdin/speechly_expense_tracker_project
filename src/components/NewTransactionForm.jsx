@@ -1,15 +1,47 @@
-import React, { useState } from 'react';
-import { TextField, Typography, Grid } from '@material-ui/core';
+import React, { useState, useContext } from 'react';
+import { TextField, Typography, Grid, Button, RadioGroup, FormControlLabel, Radio, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { v4 as uuidv4 } from 'uuid';
+
+import { ExpenseTrackerContext } from '../context/context';
 
 const NewTransactionForm = () => {
-  const [text, setText] = useState('');
-  const [amount, setAmount] = useState(0);
+  const [title, setTitle] = useState('');
+  const [amount, setAmount] = useState('');
+  const [category, setCategory] = useState('');
+  const [type, setType] = useState('Income');
+  const { addTransaction, incomeCategories, expenseCategories } = useContext(ExpenseTrackerContext);
+  const createTransaction = () => {
+    const transaction = { title, type, amount: Number(amount), category, id: uuidv4() };
+    addTransaction(transaction);
+    
+    setTitle('');
+    setAmount('');
+    setCategory('');
+  };
 
+  const handleChangeType = (e) => {
+    setType(e.target.value);
+    setCategory('');
+  }
+
+  const selectedCategories = type === 'Income' ? incomeCategories : expenseCategories;
+  
   return (
-    <Grid direction="column">
-      <Typography variant="subtitle1">Add new transaction</Typography>
-      <TextField label="Text" value={text} onChange={(e) => setText(e.target.value)} fullWidth />
-      <TextField label="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} fullWidth margin="normal" />
+    <Grid>
+      <Typography  align="center" variant="h5" gutterBottom>Add new transaction</Typography>
+      <RadioGroup style={{ display: 'flex', justifyContent: 'center', marginBottom: '-10px'  }} row defaultValue="Income" onChange={handleChangeType}>
+        <FormControlLabel value="Income" control={<Radio color="primary" />} label="Income" />
+        <FormControlLabel value="Expense" control={<Radio color="secondary" />} label="Expense" />
+      </RadioGroup>
+      <TextField label="Title" value={title} onChange={(e) => setTitle(e.target.value)} fullWidth />
+      <FormControl fullWidth>
+        <InputLabel >Category</InputLabel>
+        <Select value={category} onChange={(e) => setCategory(e.target.value)}>
+          {selectedCategories.map(({ type }) => <MenuItem key={type} value={type}>{type}</MenuItem>)}
+        </Select>
+      </FormControl>
+      <TextField style={{marginBottom: '20px'}}  type="number" label="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} fullWidth />
+      <Button variant="outlined" color="primary" fullWidth onClick={createTransaction}>Add</Button>
     </Grid>
   );
 };
