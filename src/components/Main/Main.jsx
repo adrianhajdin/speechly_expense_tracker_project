@@ -32,7 +32,7 @@ const ExpenseTracker = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant="h6" className={classes.title}>Transaction History</Typography>
-              <List dense={false}>
+              <List dense={false} style={{maxHeight: '200px', overflow: 'auto'}}>
                 {transactions.map((transaction, i) => (
                   <ListItem key={i}>
                     <ListItemAvatar>

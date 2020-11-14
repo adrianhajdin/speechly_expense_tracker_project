@@ -6,15 +6,13 @@ import { Details, Main } from './components';
 const App = () => (
   <div>
     <Grid container spacing={0} alignItems="center" justify="center" style={{ minHeight: '100vh' }}>
-      <Container maxWidth="xs">
+      <Container maxWidth="sm">
         <Details title="Income" />
       </Container>
-
       <Container maxWidth="xs">
         <Main />
       </Container>
-
-      <Container maxWidth="xs">
+      <Container maxWidth="sm">
         <Details title="Expense" />
       </Container>
     </Grid>

@@ -2,10 +2,12 @@ import React, { useReducer, createContext } from 'react';
 
 import contextReducer from './contextReducer';
 
-export const ExpenseTrackerContext = createContext([]);
+const initialState = JSON.parse(localStorage.getItem('transactions')) || [];
+
+export const ExpenseTrackerContext = createContext(initialState);
 
 export const Provider = ({ children }) => {
-  const [transactions, dispatch] = useReducer(contextReducer, []);
+  const [transactions, dispatch] = useReducer(contextReducer, initialState);
 
   const deleteTransaction = (id) => {
     dispatch({ type: 'DELETE_TRANSACTION', payload: id });
