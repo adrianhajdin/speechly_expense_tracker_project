@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { red, green } from '@material-ui/core/colors';
 
 export default makeStyles((theme) => ({
   media: {
@@ -15,14 +14,6 @@ export default makeStyles((theme) => ({
   },
   expandOpen: {
     transform: 'rotate(180deg)',
-  },
-  avatarIncome: {
-    color: '#fff',
-    backgroundColor: green[500],
-  },
-  avatarExpense: {
-    color: theme.palette.getContrastText(red[500]),
-    backgroundColor: red[500],
   },
   cartContent: {
     paddingTop: 0,
