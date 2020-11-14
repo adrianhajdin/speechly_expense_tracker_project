@@ -1,22 +1,21 @@
 import React from 'react';
 import { Container, Grid } from '@material-ui/core';
 
-import ExpenseTracker from './components/ExpenseTracker';
-import DetailsCard from './components/DetailsCard';
+import { Details, Main } from './components';
 
 const App = () => (
   <div>
     <Grid container spacing={0} alignItems="center" justify="center" style={{ minHeight: '100vh' }}>
       <Container maxWidth="xs">
-        <DetailsCard title="Income" />
+        <Details title="Income" />
       </Container>
 
       <Container maxWidth="xs">
-        <ExpenseTracker />
+        <Main />
       </Container>
 
       <Container maxWidth="xs">
-        <DetailsCard title="Expense" />
+        <Details title="Expense" />
       </Container>
     </Grid>
   </div>

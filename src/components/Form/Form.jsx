@@ -2,14 +2,18 @@ import React, { useState, useContext } from 'react';
 import { TextField, Typography, Grid, Button, RadioGroup, FormControlLabel, Radio, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid';
 
-import { ExpenseTrackerContext } from '../context/context';
+import { ExpenseTrackerContext } from '../../context/context';
+import useStyles from './styles';
+import { incomeCategories, expenseCategories } from '../../constants/categories';
 
 const NewTransactionForm = () => {
+    const classes = useStyles();
+
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
   const [type, setType] = useState('Income');
-  const { addTransaction, incomeCategories, expenseCategories } = useContext(ExpenseTrackerContext);
+  const { addTransaction  } = useContext(ExpenseTrackerContext);
   const createTransaction = () => {
     const transaction = { title, type, amount: Number(amount), category, id: uuidv4() };
     addTransaction(transaction);
