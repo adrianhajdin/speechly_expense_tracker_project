@@ -10,7 +10,7 @@ import { SpeechProvider } from '@speechly/react-client'
 
 ReactDOM.render(
   <Provider>
-        <SpeechProvider appId="9b2b830b-8d01-4207-96ff-b86537a21bb8" language="en-US">
+        <SpeechProvider appId="7c4aee08-1073-4a32-b862-ebe1850e0732" language="en-US">
             <App />
         </SpeechProvider>
   </Provider>,

@@ -9,6 +9,12 @@ const App = () => {
     const classes = useStyles();
     const { speechState, segment, toggleRecording } = useSpeechContext()
 
+//     In App.tsx (or similar):
+// import { PushToTalkButton, PushToTalkButtonContainer } from "speechly-react-ui";
+//         <PushToTalkButtonContainer>
+//           <PushToTalkButton captureKey=" " />
+//         </PushToTalkButtonContainer>
+
     return (
         <div>
             <Grid className={classes.grid} container spacing={0} alignItems="center" justify="center" style={{ minHeight: '100vh' }}>

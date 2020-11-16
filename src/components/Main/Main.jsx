@@ -5,7 +5,7 @@ import clsx from 'clsx';
 
 import useStyles from './styles';
 import Form from './Form/Form';
-import List from './List/List';
+import List from '../List/List';
 import { ExpenseTrackerContext } from '../../context/context';
 
 const ExpenseTracker = () => {
