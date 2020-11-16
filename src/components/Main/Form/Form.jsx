@@ -3,24 +3,47 @@ import { TextField, Typography, Grid, Button, RadioGroup, FormControlLabel, Radi
 import { v4 as uuidv4 } from 'uuid';
 
 import { ExpenseTrackerContext } from '../../../context/context';
-// import useStyles from './styles';
+import useStyles from './styles';
 import { incomeCategories, expenseCategories } from '../../../constants/categories';
+import { useSpeechContext } from '@speechly/react-client'
 
+const initialState = {
+    title: '',
+    amount: '',
+    category: '',
+    type: '',
+    date: new Date(),
+}
 const NewTransactionForm = () => {
-//   const classes = useStyles();
+  const classes = useStyles();
 
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
   const [type, setType] = useState('Income');
   const { addTransaction } = useContext(ExpenseTrackerContext);
+  const [date, setDate] = useState('2020-11-16');
+  const { segment } = useSpeechContext()
+
+  const [formData, setFormData] = useState(initialState);
+
+  useEffect(() => {
+    // segment.entities.forEach((word) => {
+    //     // check if tagged as category for example...
+    // });
+  }, []);
+
+  const handleDateChange = (date) => {
+    setDate(date);
+  };
   const createTransaction = () => {
-    const transaction = { title, type, amount: Number(amount), category, id: uuidv4() };
+    const transaction = { title, type, amount: Number(amount), category, id: uuidv4(), date };
     addTransaction(transaction);
 
     setTitle('');
     setAmount('');
     setCategory('');
+    setDate('2020-11-16');
   };
 
   const handleChangeType = (e) => {
@@ -44,7 +67,8 @@ const NewTransactionForm = () => {
           {selectedCategories.map((c) => <MenuItem key={c.type} value={c.type}>{c.type}</MenuItem>)}
         </Select>
       </FormControl>
-      <TextField style={{ marginBottom: '20px' }} type="number" label="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} fullWidth />
+      <TextField type="number" label="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} fullWidth />
+      <TextField fullWidth label="Date" type="date" value={date} onChange={handleDateChange} style={{ marginTop: '10px', marginBottom: '20px' }}/>
       <Button variant="outlined" color="primary" fullWidth onClick={createTransaction}>Add</Button>
     </Grid>
   );

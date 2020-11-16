@@ -17,10 +17,8 @@ export default makeStyles((theme) => ({
     },
   },
   grid: {
-    [theme.breakpoints.down('sm')]: {
     '& > *': {
-      marginTop: theme.spacing(3),
-    },
+        margin: theme.spacing(2)
+    }
   },
-},
-}));
+}))
