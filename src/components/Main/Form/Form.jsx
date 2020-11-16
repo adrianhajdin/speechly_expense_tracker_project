@@ -6,13 +6,12 @@ import { ExpenseTrackerContext } from '../../../context/context';
 // import useStyles from './styles';
 import { incomeCategories, expenseCategories } from '../../../constants/categories';
 import { useSpeechContext } from '@speechly/react-client';
-
+import formatDate from '../../../utils/formatDate';
 const initialState = {
-    // title: '',
     amount: '',
     category: '',
-    type: '',
-    date: '2020-11-16',
+    type: 'Income',
+    date: formatDate(new Date),
 }
 
 const NewTransactionForm = () => {
@@ -21,17 +20,12 @@ const NewTransactionForm = () => {
   const [formData, setFormData] = useState(initialState);
   const { segment } = useSpeechContext()
 
-// expense for 50 dollars in category car for last friday
-
   useEffect(() => {
     if(segment) {
-        console.log(segment.intent.intent);
         if(segment.intent.intent === "add_expense") {
             setFormData({...formData, type: 'Expense'});
-            console.log('EXPENSE')
         } else if(segment.intent.intent === "add_income") {
             setFormData({...formData, type: 'Income'});
-            console.log('INCOME')
         }
         
         segment.entities.forEach((s) => {
@@ -54,7 +48,7 @@ const NewTransactionForm = () => {
             }
         })
 
-        if(segment.isFinal) {
+        if(segment.isFinal && formData.category && formData.amount) {
             createTransaction();
         }
     }
@@ -82,7 +76,7 @@ const NewTransactionForm = () => {
         </Select>
       </FormControl>
       <TextField type="number" label="Amount" value={formData.amount} onChange={(e) => setFormData({ ...formData, amount: e.target.value })} fullWidth />
-      <TextField fullWidth label="Date" type="date" value={formData.date} onChange={(date) => setFormData({ ...formData, date })} style={{ marginTop: '10px', marginBottom: '20px' }}/>
+      <TextField fullWidth label="Date" type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: formatDate(e.target.value) })} style={{ marginTop: '10px', marginBottom: '20px' }}/>
       <Button variant="outlined" color="primary" fullWidth onClick={createTransaction}>Add</Button>
     </Grid>
   );

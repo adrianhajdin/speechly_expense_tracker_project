@@ -1,23 +1,36 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Card, CardHeader, CardContent, CardActions, Collapse, IconButton, Typography, Grid, Divider } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons'; // attachmoney
 import clsx from 'clsx';
 
+import SpeechlyButton from '../SpeechlyButton'
 import useStyles from './styles';
 import Form from './Form/Form';
 import List from '../List/List';
 import { ExpenseTrackerContext } from '../../context/context';
+import { useSpeechContext } from '@speechly/react-client';
 
 const ExpenseTracker = () => {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
     const { balance } = useContext(ExpenseTrackerContext);
+
+    const { segment } = useSpeechContext()
+
+  useEffect(() => {
+    if(segment) {
+        if(segment.intent.intent === "show_history") {
+            setExpanded(true)
+        }
+    }
+  }, [segment]);
 
   const handleExpandClick = () => setExpanded(!expanded);
 
   return (
     <Card className={classes.root}>
       <CardHeader title="Expense Tracker" subheader="Powered by Speechly" />
+      <SpeechlyButton />
       <CardContent>
         <Typography align="center" variant="h5">Total Balance ${balance}</Typography>
         <Divider style={{ margin: '30px 0' }} />

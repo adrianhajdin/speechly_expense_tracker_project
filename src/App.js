@@ -3,38 +3,25 @@ import { Grid } from '@material-ui/core';
 
 import { Details, Main } from './components';
 import useStyles from './styles';
-import { useSpeechContext } from '@speechly/react-client'
 
 const App = () => {
     const classes = useStyles();
-    const { speechState, segment, toggleRecording } = useSpeechContext()
-
-//     In App.tsx (or similar):
-// import { PushToTalkButton, PushToTalkButtonContainer } from "speechly-react-ui";
-//         <PushToTalkButtonContainer>
-//           <PushToTalkButton captureKey=" " />
-//         </PushToTalkButtonContainer>
 
     return (
         <div>
             <Grid className={classes.grid} container spacing={0} alignItems="center" justify="center" style={{ minHeight: '100vh' }}>
-                <Grid item xs={4} className={classes.mobile}>
-                    <Details title="Income" />
+                <Grid item xs={12} sm={4}  className={classes.mobile}>
+                    <Details title="Income" subheader='Try saying: "Add Income for $50 in Category Salary for Next Monday"' />
                 </Grid>
-                <Grid item xs={3} className={classes.main}>
+                <Grid item xs={12} sm={3} className={classes.main}>
                     <Main />
                 </Grid>
-                <Grid item xs={4} className={classes.desktop}>
-                    <Details title="Income" />
+                <Grid item xs={12} sm={4} className={classes.desktop}>
+                    <Details title="Income" subheader='Try saying: "Add Income for $50 in Category Salary for Next Monday"' />
                 </Grid>
-                <Grid item xs={4} className={classes.last}>
-                    <Details title="Expense" />
+                <Grid item xs={12} sm={4} className={classes.last}>
+                    <Details title="Expense" subheader='Try saying: "Add Expense for $25 in Category Pets for Tomorrow"' />
                 </Grid>
-                <div className="status">{speechState}</div>
-                {segment ? <div className="segment">{segment.words.map(w => w.value).join(' ')}</div> : null}
-                <div className="mic-button">
-                    <button onClick={toggleRecording}>Record</button>
-                </div>
             </Grid>
         </div>
     );
