@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 
-import { PushToTalkButton, PushToTalkButtonContainer } from './speechly-react-ui';
+import { PushToTalkButton, PushToTalkContainer, BigTransscript, BigTransscriptContainer } from './speechly-react-ui';
 // import PushToTalkContainer from './speechly-react-ui/components/PushToTalkContainer.tsx';
 
 import { Details, Main, Snackbar } from './components';
@@ -25,9 +25,12 @@ const App = () => {
         <Grid item xs={12} sm={4} className={classes.last}>
           <Details title="Expense" subheader='Try saying: "Add Expense for $25 in Category Pets for Tomorrow"' />
         </Grid>
-        <PushToTalkButtonContainer>
+        <PushToTalkContainer>
           <PushToTalkButton />
-        </PushToTalkButtonContainer>
+        </PushToTalkContainer>
+        <BigTransscriptContainer>
+        <BigTransscript/>
+        </BigTransscriptContainer>
       </Grid>
     </div>
   );
