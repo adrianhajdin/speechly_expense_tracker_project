@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { TextField, Typography, Grid, Button, RadioGroup, FormControlLabel, Radio, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid';
 
+import Snackbar from '../../Snackbar'
 import { ExpenseTrackerContext } from '../../../context/context';
 // import useStyles from './styles';
 import { incomeCategories, expenseCategories } from '../../../constants/categories';
@@ -19,25 +20,41 @@ const NewTransactionForm = () => {
   const { addTransaction } = useContext(ExpenseTrackerContext);
   const [formData, setFormData] = useState(initialState);
   const { segment } = useSpeechContext()
+  const [open, setOpen] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = React.useState('');
 
   useEffect(() => {
     if(segment) {
+        console.log(1, segment.intent.intent);
+        // console.log(segment);
         if(segment.intent.intent === "add_expense") {
             setFormData({...formData, type: 'Expense'});
         } else if(segment.intent.intent === "add_income") {
             setFormData({...formData, type: 'Income'});
-        }
+        } else if(segment.isFinal && segment.intent.intent === "create_transaction") {
+            return createTransaction()
+        } else if(segment.isFinal && segment.intent.intent === "cancel_transaction") {
+            return setFormData(initialState);
+        } 
+        // else if(segment.intent.intent === "add_category") {
+        //     console.log(2, segment)
+        //     setFormData({...formData, category: 'test'});
+        // } else if(segment.intent.intent === "add_date") {
+        //     console.log(2, segment)
+        //     setFormData({...formData, category: 'test'});
+        // } else if(segment.intent.intent === "add_date") {
+        //     console.log(2, segment)
+        //     setFormData({...formData, category: 'test'});
+        // }
         
         segment.entities.forEach((s) => {
+            console.log(s);
+            console.log({type: s.type, value: s.value});
             switch (s.type) {
                 case 'amount':
                     setFormData({...formData, amount: s.value });
                     break;
-                    case 'category_expense':
-                        console.log(`${s.value.charAt(0)}${s.value.slice(1).toLowerCase()}` )
-                    setFormData({...formData, category: `${s.value.charAt(0)}${s.value.slice(1).toLowerCase()}` });
-                    break;
-                case 'category_income':
+                case 'category':
                     setFormData({...formData, category: `${s.value.charAt(0)}${s.value.slice(1).toLowerCase()}` });
                     break;
                 case 'date':
@@ -46,15 +63,12 @@ const NewTransactionForm = () => {
                 default:
                     break;
             }
-        })
-
-        if(segment.isFinal && formData.category && formData.amount) {
-            createTransaction();
-        }
+        });
     }
   }, [segment]);
 
   const createTransaction = () => {
+      setOpen(true)
     addTransaction({ ...formData, amount: Number(formData.amount), id: uuidv4()  });
 
     setFormData(initialState);
@@ -64,6 +78,7 @@ const NewTransactionForm = () => {
 
   return (
     <Grid>
+        <Snackbar open={open} setOpen={setOpen} message={snackbarMessage} />
       <Typography align="center" variant="h5" gutterBottom>Add new transaction</Typography>
       <RadioGroup style={{ display: 'flex', justifyContent: 'center', marginBottom: '-10px' }} value={formData.type} row onChange={(e) => setFormData({ ...formData, type: e.target.value, category: '' })}>
         <FormControlLabel value="Income" control={<Radio color="primary" />} label="Income" />
@@ -77,7 +92,7 @@ const NewTransactionForm = () => {
       </FormControl>
       <TextField type="number" label="Amount" value={formData.amount} onChange={(e) => setFormData({ ...formData, amount: e.target.value })} fullWidth />
       <TextField fullWidth label="Date" type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: formatDate(e.target.value) })} style={{ marginTop: '10px', marginBottom: '20px' }}/>
-      <Button variant="outlined" color="primary" fullWidth onClick={createTransaction}>Add</Button>
+      <Button variant="outlined" color="primary" fullWidth onClick={createTransaction}>Create</Button>
     </Grid>
   );
 };
