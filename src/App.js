@@ -2,9 +2,8 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 
 import { PushToTalkButton, PushToTalkContainer, BigTransscript, BigTransscriptContainer } from './speechly-react-ui';
-// import PushToTalkContainer from './speechly-react-ui/components/PushToTalkContainer.tsx';
 
-import { Details, Main, Snackbar } from './components';
+import { Details, Main } from './components';
 import useStyles from './styles';
 
 const App = () => {
@@ -29,7 +28,7 @@ const App = () => {
           <PushToTalkButton />
         </PushToTalkContainer>
         <BigTransscriptContainer>
-        <BigTransscript/>
+          <BigTransscript />
         </BigTransscriptContainer>
       </Grid>
     </div>

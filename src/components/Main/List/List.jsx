@@ -1,4 +1,4 @@
-import React, {  useContext } from 'react';
+import React, { useContext } from 'react';
 import { List as MUIList, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, IconButton } from '@material-ui/core';
 import { Delete, MoneyOff } from '@material-ui/icons';
 
@@ -10,9 +10,9 @@ const List = () => {
   const { transactions, deleteTransaction } = useContext(ExpenseTrackerContext);
 
   return (
-    <MUIList dense={false} style={{ maxHeight: '200px', overflow: 'auto' }}>
-      {transactions.map((transaction, i) => (
-        <ListItem key={i}>
+    <MUIList dense={false} className={classes.list}>
+      {transactions.map((transaction) => (
+        <ListItem key={transaction.id}>
           <ListItemAvatar>
             <Avatar className={transaction.type === 'Income' ? classes.avatarIncome : classes.avatarExpense}>
               <MoneyOff />

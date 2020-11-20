@@ -1,9 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles((theme) => ({
-    textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: 200,
-      },
+export default makeStyles(() => ({
+  radioGroup: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '-10px',
+  },
+  textField: {
+    marginTop: '10px',
+    marginBottom: '20px',
+  },
 }));
