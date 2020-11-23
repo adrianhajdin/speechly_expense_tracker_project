@@ -4,3 +4,6 @@
 
 add income for 50 dollars in category salary for last friday
 add expense for 25 dollars in category pets for last friday
+
+add marginbottom on last card mobile
+doesnt work on chrome mobile on iphone

@@ -87,29 +87,49 @@ const PushToTalkButton: React.FC<IPushToTalkButton> = ({
   useKeyboardEvent(
     (event: any) => onKeyPress(event),
     (event: any) => onKeyRelease(event),
-    [captureKey, buttonDispatch] // useState dependencies used in the callback, or in the functions used by the callback
+    [captureKey, speechState] // useState dependencies used in the callback, or in the functions used by the callback
   );
+
+  const tangentPressAction = () => {
+    // Speechly & Mic initialise needs to be here (a function triggered by event handler), otherwise it won't work reliably on Safari iOS as of 11/2020
+    vibrate();
+
+    if (isStartButtonVisible(speechState)) {
+      setSpringProps({ holdScale: 1.35, config: { tension: 500 } });
+      initialise();
+    } else {
+      setSpringProps({
+        reset: false,
+        effectOpacity: 1,
+        holdScale: 1.35,
+        config: { tension: 500 },
+      });
+      micStart();
+    }
+
+    buttonDispatch({ type: TangentEvents.Hold });
+  };
 
   const onTangentButtonPress = (event: SyntheticEvent) => {
     event.preventDefault();
     event.stopPropagation();
-    buttonDispatch({ type: TangentEvents.Hold });
-  };
-
-  const onTangentButtonRelease = (event: SyntheticEvent) => {
-    buttonDispatch({ type: TangentEvents.Release });
+    tangentPressAction();
   };
 
   const onKeyPress = (event: any) => {
     if (captureKey) {
       if (event.key === captureKey) {
         if (!event.repeat) {
-          buttonDispatch({ type: TangentEvents.Hold });
+          tangentPressAction();
         }
         event.preventDefault();
         event.stopPropagation();
       }
     }
+  };
+
+  const onTangentButtonRelease = (event: SyntheticEvent) => {
+    buttonDispatch({ type: TangentEvents.Release });
   };
 
   const onKeyRelease = (event: any) => {
@@ -138,39 +158,31 @@ const PushToTalkButton: React.FC<IPushToTalkButton> = ({
     toggleRecording();
   }, [speechState]);
 
-  // Handle tangent manipulation (via button, keyboard hotkey)
+  // Handle tangent release (via button, keyboard hotkey)
   useEffect(() => {
-    if (!tangentButtonState.processEvent) return;
+    let animateButtonToReleaseState = false;
 
-    vibrate();
+    if (tangentButtonState.processEvent) {
+      if (!tangentButtonState.mouseDrag) {
+        vibrate();
+        animateButtonToReleaseState = true;
 
-    if (!tangentButtonState.mouseDrag) {
+        if (!isStartButtonVisible(speechState)) {
+          micStop();
+        }
+      }
+      buttonDispatch({ type: TangentEvents.Handled });
+    }
+
+    // Put button in resting state. Also do this on SpeechState.Ready as we may not get the keyboard up press due to permission prompt
+    if (animateButtonToReleaseState || speechState === SpeechState.Ready) {
       setSpringProps({
         reset: false,
         effectOpacity: 0,
         holdScale: 1.0,
         config: { tension: 170 },
       });
-      if (isStartButtonVisible(speechState)) {
-        initialise();
-      } else {
-        micStop();
-      }
-    } else {
-      if (isStartButtonVisible(speechState)) {
-        setSpringProps({ holdScale: 1.35, config: { tension: 500 } });
-      } else {
-        micStart();
-        setSpringProps({
-          reset: false,
-          effectOpacity: 1,
-          holdScale: 1.35,
-          config: { tension: 500 },
-        });
-      }
     }
-
-    buttonDispatch({ type: TangentEvents.Handled });
   }, [tangentButtonState, speechState]);
 
   const isStartButtonVisible = (state: SpeechState) => {

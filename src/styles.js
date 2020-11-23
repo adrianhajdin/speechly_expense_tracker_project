@@ -11,9 +11,15 @@ export default makeStyles((theme) => ({
       display: 'none',
     },
   },
+  main: {
+    [theme.breakpoints.up('sm')]: {
+        paddingBottom: '10%'
+    }
+  },
   last: {
     [theme.breakpoints.down('sm')]: {
       marginBottom: theme.spacing(3),
+      paddingBottom: '200px',
     },
   },
   grid: {

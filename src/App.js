@@ -1,9 +1,9 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 
 import { PushToTalkButton, PushToTalkContainer, BigTransscript, BigTransscriptContainer } from './speechly-react-ui';
 
-import { Details, Main } from './components';
+import { Details, InfoCard, Main } from './components';
 import useStyles from './styles';
 
 const App = () => {
@@ -13,16 +13,22 @@ const App = () => {
     <div>
       <Grid className={classes.grid} container spacing={0} alignItems="center" justify="center" style={{ minHeight: '100vh' }}>
         <Grid item xs={12} sm={4} className={classes.mobile}>
-          <Details title="Income" subheader='Try saying: "Add Income for $50 in Category Salary for Next Monday"' />
+          <Details title="Income"  />
+          <br />
+          <InfoCard isIncome={true} />
         </Grid>
         <Grid item xs={12} sm={3} className={classes.main}>
           <Main />
         </Grid>
         <Grid item xs={12} sm={4} className={classes.desktop}>
-          <Details title="Income" subheader='Try saying: "Add Income for $50 in Category Salary for Next Monday"' />
+          <Details title="Income"  />
+          <br />
+          <InfoCard isIncome={true} />
         </Grid>
         <Grid item xs={12} sm={4} className={classes.last}>
-          <Details title="Expense" subheader='Try saying: "Add Expense for $25 in Category Pets for Tomorrow"' />
+          <Details title="Expense" />
+          <br />
+          <InfoCard isIncome={false} />
         </Grid>
         <PushToTalkContainer>
           <PushToTalkButton />
