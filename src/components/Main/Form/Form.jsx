@@ -25,7 +25,16 @@ const NewTransactionForm = () => {
 
   const createTransaction = () => {
     if(isNaN(Number(formData.amount)) || !formData.date.includes('-')) return;
-      
+    
+    if(incomeCategories.includes(formData.category)) {
+        setFormData({ ...formData, type: 'Income'});
+    } else if(expenseCategories.includes(formData.category)) {
+        setFormData({ ...formData, type: 'Expense'})
+    }
+  
+    // if(formData.type === 'Expense' && !expenseCategories.includes(formData.category)) return;
+
+    
     setOpen(true);
     addTransaction({ ...formData, amount: Number(formData.amount), id: uuidv4() });
     setFormData(initialState);
