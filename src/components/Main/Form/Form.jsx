@@ -24,10 +24,10 @@ const NewTransactionForm = () => {
   const [open, setOpen] = React.useState(false);
 
   const createTransaction = () => {
+    if(isNaN(Number(formData.amount)) || !formData.date.includes('-')) return;
+      
     setOpen(true);
-
     addTransaction({ ...formData, amount: Number(formData.amount), id: uuidv4() });
-
     setFormData(initialState);
   };
 
