@@ -9,7 +9,7 @@ export default (state, action) => {
 
       return transactions;
     case 'ADD_TRANSACTION':
-      transactions = [...state, action.payload];
+      transactions = [action.payload, ...state];
 
       localStorage.setItem('transactions', JSON.stringify(transactions));
 

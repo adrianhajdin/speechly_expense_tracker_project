@@ -6,8 +6,7 @@ export default makeStyles(() => ({
     justifyContent: 'center',
     marginBottom: '-10px',
   },
-  textField: {
-    marginTop: '10px',
-    marginBottom: '20px',
-  },
+  button: {
+    marginTop: '20px'
+  }
 }));
