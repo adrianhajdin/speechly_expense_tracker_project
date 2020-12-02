@@ -83,10 +83,6 @@ const NewTransactionForm = () => {
       <Grid item xs={12}>
       <Typography align="center" variant="h5" gutterBottom>Add new transaction</Typography>
       </Grid>
-      {/* <RadioGroup className={classes.radioGroup} value={formData.type} row onChange={(e) => setFormData({ ...formData, type: e.target.value, category: '' })}>
-        <FormControlLabel value="Income" control={<Radio color="primary" />} label="Income" />
-        <FormControlLabel value="Expense" control={<Radio color="secondary" />} label="Expense" />
-      </RadioGroup> */}
       <Grid item xs={6}>
       <FormControl fullWidth>
         <InputLabel>Category</InputLabel>
