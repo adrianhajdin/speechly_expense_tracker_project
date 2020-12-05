@@ -24,7 +24,7 @@ const NewTransactionForm = () => {
   const [open, setOpen] = React.useState(false);
 
   const createTransaction = () => {
-    if (isNaN(Number(formData.amount)) || !formData.date.includes('-')) return;
+    if (Number.isNaN(Number(formData.amount)) || !formData.date.includes('-')) return;
 
     if (incomeCategories.map((iC) => iC.type).includes(formData.category)) {
       setFormData({ ...formData, type: 'Income' });
@@ -50,19 +50,18 @@ const NewTransactionForm = () => {
       }
 
       segment.entities.forEach((s) => {
+        const category = `${s.value.charAt(0)}${s.value.slice(1).toLowerCase()}`;
+
         switch (s.type) {
           case 'amount':
             setFormData({ ...formData, amount: s.value });
             break;
           case 'category':
-            const category = `${s.value.charAt(0)}${s.value.slice(1).toLowerCase()}`;
-
             if (incomeCategories.map((iC) => iC.type).includes(category)) {
               setFormData({ ...formData, type: 'Income', category });
             } else if (expenseCategories.map((iC) => iC.type).includes(category)) {
               setFormData({ ...formData, type: 'Expense', category });
             }
-
             break;
           case 'date':
             setFormData({ ...formData, date: s.value });
