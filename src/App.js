@@ -1,15 +1,14 @@
 import React, { useRef } from 'react';
 import { Grid, Typography } from '@material-ui/core';
 
-import { PushToTalkButton, PushToTalkContainer  } from './speechly-react-ui';
+import { PushToTalkButton, PushToTalkButtonContainer  } from '@speechly/react-ui';
 
 import { Details, InfoCard, Main } from './components';
 import useStyles from './styles';
-
 const App = () => {
   const classes = useStyles();
   const myRef = useRef(null)
- 
+  
   const executeScroll = () => myRef.current.scrollIntoView();
 
   return (
@@ -33,11 +32,11 @@ const App = () => {
           {/* <br /> */}
           {/* <InfoCard isIncome={false} /> */}
         </Grid>
-        <PushToTalkContainer>
-          <button style={{backgroundColor: 'inherit', border: 'none'}}  onClick={executeScroll}>
-            <PushToTalkButton  />
-          </button>
-        </PushToTalkContainer>
+        <PushToTalkButtonContainer>
+    <button style={{backgroundColor: 'inherit', border: 'none'}}  onClick={executeScroll}>
+    <PushToTalkButton  />
+    </button>
+</PushToTalkButtonContainer>
       </Grid>
     </div>
   );

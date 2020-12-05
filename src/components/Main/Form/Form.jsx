@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { TextField, Typography, Grid, Button, RadioGroup, FormControlLabel, Radio, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { TextField, Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid';
 
 import { useSpeechContext } from '@speechly/react-client';
@@ -24,17 +24,14 @@ const NewTransactionForm = () => {
   const [open, setOpen] = React.useState(false);
 
   const createTransaction = () => {
-    if(isNaN(Number(formData.amount)) || !formData.date.includes('-')) return;
-    
-    if(incomeCategories.includes(formData.category)) {
-        setFormData({ ...formData, type: 'Income'});
-    } else if(expenseCategories.includes(formData.category)) {
-        setFormData({ ...formData, type: 'Expense'})
-    }
-  
-    // if(formData.type === 'Expense' && !expenseCategories.includes(formData.category)) return;
+    if (isNaN(Number(formData.amount)) || !formData.date.includes('-')) return;
 
-    
+    if (incomeCategories.map((iC) => iC.type).includes(formData.category)) {
+      setFormData({ ...formData, type: 'Income' });
+    } else if (expenseCategories.map((iC) => iC.type).includes(formData.category)) {
+      setFormData({ ...formData, type: 'Expense' });
+    }
+
     setOpen(true);
     addTransaction({ ...formData, amount: Number(formData.amount), id: uuidv4() });
     setFormData(initialState);
@@ -58,7 +55,14 @@ const NewTransactionForm = () => {
             setFormData({ ...formData, amount: s.value });
             break;
           case 'category':
-            setFormData({ ...formData, category: `${s.value.charAt(0)}${s.value.slice(1).toLowerCase()}` });
+            const category = `${s.value.charAt(0)}${s.value.slice(1).toLowerCase()}`;
+
+            if (incomeCategories.map((iC) => iC.type).includes(category)) {
+              setFormData({ ...formData, type: 'Income', category });
+            } else if (expenseCategories.map((iC) => iC.type).includes(category)) {
+              setFormData({ ...formData, type: 'Expense', category });
+            }
+
             break;
           case 'date':
             setFormData({ ...formData, date: s.value });
@@ -67,13 +71,12 @@ const NewTransactionForm = () => {
             break;
         }
       });
-      
-      if(segment.isFinal && formData.amount && formData.category && formData.type && formData.date) {
-          createTransaction()
+
+      if (segment.isFinal && formData.amount && formData.category && formData.type && formData.date) {
+        createTransaction();
       }
     }
   }, [segment]);
-
 
   const selectedCategories = formData.type === 'Income' ? incomeCategories : expenseCategories;
 
@@ -81,24 +84,24 @@ const NewTransactionForm = () => {
     <Grid container spacing={2}>
       <Snackbar open={open} setOpen={setOpen} />
       <Grid item xs={12}>
-      <Typography align="center" variant="h5" gutterBottom>Add new transaction</Typography>
+        <Typography align="center" variant="h5" gutterBottom>Add new transaction</Typography>
       </Grid>
       <Grid item xs={6}>
-      <FormControl fullWidth>
-        <InputLabel>Category</InputLabel>
-        <Select value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })}>
-          <MenuItem value="Income">Income</MenuItem>
-          <MenuItem value="Expense">Expense</MenuItem>
-        </Select>
-      </FormControl>
+        <FormControl fullWidth>
+          <InputLabel>Category</InputLabel>
+          <Select value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })}>
+            <MenuItem value="Income">Income</MenuItem>
+            <MenuItem value="Expense">Expense</MenuItem>
+          </Select>
+        </FormControl>
       </Grid>
       <Grid item xs={6}>
-      <FormControl fullWidth>
-        <InputLabel>Category</InputLabel>
-        <Select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
-          {selectedCategories.map((c) => <MenuItem key={c.type} value={c.type}>{c.type}</MenuItem>)}
-        </Select>
-      </FormControl>
+        <FormControl fullWidth>
+          <InputLabel>Category</InputLabel>
+          <Select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
+            {selectedCategories.map((c) => <MenuItem key={c.type} value={c.type}>{c.type}</MenuItem>)}
+          </Select>
+        </FormControl>
       </Grid>
 
       <Grid item xs={6}>

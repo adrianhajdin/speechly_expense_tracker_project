@@ -19,4 +19,5 @@ const DetailsCard = ({ title, subheader }) => {
     </Card>
   );
 };
+
 export default DetailsCard;

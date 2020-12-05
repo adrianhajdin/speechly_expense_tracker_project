@@ -1,16 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Card, CardHeader, CardContent, CardActions, Collapse, IconButton, Typography, Grid, Divider } from '@material-ui/core';
-import { ExpandMore } from '@material-ui/icons';
-import clsx from 'clsx';
-
+import { Card, CardHeader, CardContent, Typography, Grid, Divider } from '@material-ui/core';
+import { BigTranscript } from '@speechly/react-ui';
+import { useSpeechContext } from '@speechly/react-client';
 import { ExpenseTrackerContext } from '../../context/context';
 import useStyles from './styles';
 import Form from './Form/Form';
 import List from './List/List';
-import {  BigTransscript } from '../../speechly-react-ui';
 import InfoCard from '../InfoCard';
-import { useSpeechContext } from '@speechly/react-client';
-
 
 const ExpenseTracker = () => {
   const classes = useStyles();
@@ -21,14 +17,12 @@ const ExpenseTracker = () => {
   useEffect(() => {
     let timer;
 
-    console.log(segment, isSpeaking)
-
-    if(segment) {
-      if(!segment?.isFinal) {
+    if (segment) {
+      if (!segment?.isFinal) {
         setIsSpeaking(true);
       }
-      
-      if(segment?.isFinal) {
+
+      if (segment?.isFinal) {
         timer = setTimeout(() => {
           setIsSpeaking(false);
         }, 3000);
@@ -43,20 +37,18 @@ const ExpenseTracker = () => {
       <CardContent>
         <Typography align="center" variant="h5">Total Balance ${balance}</Typography>
         <Typography variant="subtitle1" style={{ lineHeight: '2.5em', marginTop: '20px' }}>
-        { isSpeaking ? <BigTransscript /> : <InfoCard /> }
-
-</Typography>
-
+          { isSpeaking ? <BigTranscript /> : <InfoCard /> }
+        </Typography>
         <Divider className={classes.divider} />
         <Form />
       </CardContent>
-        <CardContent className={classes.cartContent}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <List />
-            </Grid>
+      <CardContent className={classes.cartContent}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <List />
           </Grid>
-        </CardContent>
+        </Grid>
+      </CardContent>
     </Card>
   );
 };
