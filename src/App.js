@@ -11,7 +11,7 @@ const App = () => {
 
   return (
     <div>
-      <Grid className={classes.grid} container spacing={0} alignItems="center" justify="center" style={{ minHeight: '100vh' }}>
+      <Grid className={classes.grid} container spacing={0} alignItems="center" justify="center">
         <Grid item xs={12} sm={4} className={classes.mobile}>
           <Details title="Income" />
         </Grid>
