@@ -19,6 +19,6 @@ export default makeStyles((theme) => ({
     paddingTop: 0,
   },
   divider: {
-    margin: '30px 0',
+    margin: '20px 0',
   },
 }));

@@ -2,7 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 import { TextField, Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useSpeechContext } from '@speechly/react-client';
+import { BigTranscript } from '@speechly/react-ui';
+import { useSpeechContext, SpeechState} from '@speechly/react-client';
 import Snackbar from '../../Snackbar/Snackbar';
 import formatDate from '../../../utils/formatDate';
 import { ExpenseTrackerContext } from '../../../context/context';
@@ -22,6 +23,17 @@ const NewTransactionForm = () => {
   const [formData, setFormData] = useState(initialState);
   const { segment } = useSpeechContext();
   const [open, setOpen] = React.useState(false);
+  const { speechState } = useSpeechContext();
+  const [isSpeaking, setIsSpeaking] = useState(false);
+
+  useEffect(() => {
+    if (speechState === SpeechState.Recording) {
+      setIsSpeaking(true);
+    } else {
+      setIsSpeaking(false);
+    }
+  }, [speechState]);
+
 
   const createTransaction = () => {
     if (Number.isNaN(Number(formData.amount)) || !formData.date.includes('-')) return;
@@ -83,7 +95,9 @@ const NewTransactionForm = () => {
     <Grid container spacing={2}>
       <Snackbar open={open} setOpen={setOpen} />
       <Grid item xs={12}>
-        <Typography align="center" variant="h5" gutterBottom>Add new transaction</Typography>
+        <Typography align="center" variant="subtitle2" gutterBottom>
+         {isSpeaking ? <BigTranscript /> : 'Start adding transactions'} 
+        </Typography>
       </Grid>
       <Grid item xs={6}>
         <FormControl fullWidth>

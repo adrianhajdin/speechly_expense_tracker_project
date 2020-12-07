@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Card, CardHeader, CardContent, Typography, Grid, Divider } from '@material-ui/core';
-import { BigTranscript } from '@speechly/react-ui';
 import { useSpeechContext } from '@speechly/react-client';
 import { ExpenseTrackerContext } from '../../context/context';
 import useStyles from './styles';
@@ -11,33 +10,14 @@ import InfoCard from '../InfoCard';
 const ExpenseTracker = () => {
   const classes = useStyles();
   const { balance } = useContext(ExpenseTrackerContext);
-  const { segment } = useSpeechContext();
-  const [isSpeaking, setIsSpeaking] = useState(false);
-
-  useEffect(() => {
-    let timer;
-
-    if (segment) {
-      if (!segment?.isFinal) {
-        setIsSpeaking(true);
-      }
-
-      if (segment?.isFinal) {
-        timer = setTimeout(() => {
-          setIsSpeaking(false);
-        }, 3000);
-      }
-    }
-    return () => clearTimeout(timer);
-  }, [segment]);
 
   return (
     <Card className={classes.root}>
       <CardHeader title="Expense Tracker" subheader="Powered by Speechly" />
       <CardContent>
         <Typography align="center" variant="h5">Total Balance ${balance}</Typography>
-        <Typography variant="subtitle1" style={{ lineHeight: '2.5em', marginTop: '20px' }}>
-          { isSpeaking ? <BigTranscript /> : <InfoCard /> }
+        <Typography variant="subtitle1" style={{ lineHeight: '1.5em', marginTop: '20px' }}>
+          <InfoCard />
         </Typography>
         <Divider className={classes.divider} />
         <Form />
