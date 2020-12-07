@@ -13,7 +13,7 @@ export default makeStyles((theme) => ({
   },
   main: {
     [theme.breakpoints.up('sm')]: {
-      paddingBottom: '10%',
+      paddingBottom: '5%',
     },
   },
   last: {
