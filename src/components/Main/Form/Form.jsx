@@ -96,23 +96,28 @@ const NewTransactionForm = () => {
       <Snackbar open={open} setOpen={setOpen} />
       <Grid item xs={12}>
         <Typography align="center" variant="subtitle2" gutterBottom>
-         {isSpeaking ? <BigTranscript /> : 'Start adding transactions'} 
+        {segment ? (
+        <div className="segment">
+          {segment.words.map((w) => w.value).join(" ")}
+        </div>
+      ) : null}
+         {/* {isSpeaking ? <BigTranscript /> : 'Start adding transactions'}  */}
         </Typography>
       </Grid>
       <Grid item xs={6}>
         <FormControl fullWidth>
-          <InputLabel>Category</InputLabel>
-          <Select value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })}>
-            <MenuItem value="Income">Income</MenuItem>
-            <MenuItem value="Expense">Expense</MenuItem>
+          <InputLabel>Type</InputLabel>
+          <Select native value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })}>
+            <option value="Income">Income</option>
+            <option value="Expense">Expense</option>
           </Select>
         </FormControl>
       </Grid>
       <Grid item xs={6}>
         <FormControl fullWidth>
           <InputLabel>Category</InputLabel>
-          <Select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
-            {selectedCategories.map((c) => <MenuItem key={c.type} value={c.type}>{c.type}</MenuItem>)}
+          <Select native value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
+            {selectedCategories.map((c) => <option key={c.type} value={c.type}>{c.type}</option>)}
           </Select>
         </FormControl>
       </Grid>
