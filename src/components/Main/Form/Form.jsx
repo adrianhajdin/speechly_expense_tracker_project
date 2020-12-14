@@ -107,17 +107,17 @@ const NewTransactionForm = () => {
       <Grid item xs={6}>
         <FormControl fullWidth>
           <InputLabel>Type</InputLabel>
-          <Select native value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })}>
-            <option value="Income">Income</option>
-            <option value="Expense">Expense</option>
+          <Select value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })}>
+            <MenuItem value="Income">Income</MenuItem>
+            <MenuItem value="Expense">Expense</MenuItem>
           </Select>
         </FormControl>
       </Grid>
       <Grid item xs={6}>
         <FormControl fullWidth>
           <InputLabel>Category</InputLabel>
-          <Select native value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
-            {selectedCategories.map((c) => <option key={c.type} value={c.type}>{c.type}</option>)}
+          <Select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}>
+            {selectedCategories.map((c) => <MenuItem key={c.type} value={c.type}>{c.type}</MenuItem>)}
           </Select>
         </FormControl>
       </Grid>
