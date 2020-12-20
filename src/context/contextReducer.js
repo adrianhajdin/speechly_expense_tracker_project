@@ -1,4 +1,4 @@
-export default (state, action) => {
+const contextReducer = (state, action) => {
   let transactions;
 
   switch (action.type) {
@@ -18,3 +18,5 @@ export default (state, action) => {
       return state;
   }
 };
+
+export default contextReducer;

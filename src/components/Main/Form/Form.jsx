@@ -2,8 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { TextField, Typography, Grid, Button, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid';
 
-import { BigTranscript } from '@speechly/react-ui';
-import { useSpeechContext, SpeechState} from '@speechly/react-client';
+import { useSpeechContext } from '@speechly/react-client';
 import Snackbar from '../../Snackbar/Snackbar';
 import formatDate from '../../../utils/formatDate';
 import { ExpenseTrackerContext } from '../../../context/context';
@@ -23,17 +22,6 @@ const NewTransactionForm = () => {
   const [formData, setFormData] = useState(initialState);
   const { segment } = useSpeechContext();
   const [open, setOpen] = React.useState(false);
-  const { speechState } = useSpeechContext();
-  const [isSpeaking, setIsSpeaking] = useState(false);
-
-  useEffect(() => {
-    if (speechState === SpeechState.Recording) {
-      setIsSpeaking(true);
-    } else {
-      setIsSpeaking(false);
-    }
-  }, [speechState]);
-
 
   const createTransaction = () => {
     if (Number.isNaN(Number(formData.amount)) || !formData.date.includes('-')) return;
