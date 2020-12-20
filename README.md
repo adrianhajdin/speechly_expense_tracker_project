@@ -1,6 +1,6 @@
 # Speechly Expense Tracker
 
-![Expense Tracker](https://i.ibb.co/Z8Y0CJv/Screenshot-2020-10-30-at-11-10-04.png)
+![Expense Tracker](https://i.ibb.co/VJjj3Kp/Screenshot-2020-12-18-205600.png)
 
 ## Introduction
 This is a code repository for the corresponding video tutorial - https://youtu.be/NnUFOWR_V4Y.
