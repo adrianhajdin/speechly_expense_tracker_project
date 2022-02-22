@@ -21,7 +21,7 @@ const NewTransactionForm = () => {
   const { addTransaction } = useContext(ExpenseTrackerContext);
   const [formData, setFormData] = useState(initialState);
   const { segment } = useSpeechContext();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const createTransaction = () => {
     if (Number.isNaN(Number(formData.amount)) || !formData.date.includes('-')) return;
