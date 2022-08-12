@@ -8,6 +8,10 @@ import { Details, Main } from './components';
 import useStyles from './styles';
 
 const App = () => {
+  const [voiceOPT, setVoiceOPT] = React.useState(false);
+  const handleChange = (event) => {
+    setVoiceOPT(!voiceOPT);
+  };
   const classes = useStyles();
   const { speechState } = useSpeechContext();
   const main = useRef(null)
@@ -27,7 +31,7 @@ const App = () => {
           <Details title="Income" />
         </Grid>
         <Grid ref={main} item xs={12} sm={3} className={classes.main}>
-          <Main />
+          <Main handleChange={handleChange} voiceOPT={voiceOPT} />
         </Grid>
         <Grid item xs={12} sm={4} className={classes.desktop}>
           <Details title="Income" />
@@ -36,7 +40,7 @@ const App = () => {
           <Details title="Expense" />
         </Grid>
         <PushToTalkButtonContainer>
-          <PushToTalkButton />
+          {voiceOPT && <PushToTalkButton />}
         </PushToTalkButtonContainer>
       </Grid>
     </div>
